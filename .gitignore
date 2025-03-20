@@ -1,0 +1,27 @@
+# Ignore virtual environment
+.env/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore model checkpoints and large files
+*.h5
+*.pb
+*.tflite
+*.onnx
+checkpoints/
+logs/
+tensorboard_logs/
+
+# Ignore dataset files
+*.csv
+*.json
+*.xlsx
+datasets/
+ham10000/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
