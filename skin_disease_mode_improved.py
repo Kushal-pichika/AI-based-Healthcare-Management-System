@@ -8,14 +8,14 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense, Dropout, GlobalAveragePooling2D
 from tensorflow.keras.optimizers import Adam
 
-# ✅ Load Dataset
+# Load Dataset
 dataset_dir = r"E:\Mini Project\ham10000"
 csv_path = r"E:\Mini Project\HAM10000_metadata.csv"
 df = pd.read_csv(csv_path)
 df['image_path'] = df['image_id'].apply(lambda x: os.path.join(dataset_dir, x + ".jpg"))
 df['dx'] = df['dx'].astype(str)
 
-# ✅ Advanced Data Augmentation
+# Advanced Data Augmentation
 datagen = ImageDataGenerator(
     rescale=1./255,
     rotation_range=30,
@@ -49,15 +49,15 @@ val_data = datagen.flow_from_dataframe(
 
 num_classes = len(train_data.class_indices)
 
-# ✅ Use EfficientNetB3 (Better Accuracy)
+# Use EfficientNetB3 (Better Accuracy)
 base_model = EfficientNetB3(weights="imagenet", include_top=False, input_shape=(224, 224, 3))
 base_model.trainable = True
 
-# ✅ Unfreeze last 20 layers
+# Unfreeze last 20 layers
 for layer in base_model.layers[:-20]:
     layer.trainable = False
 
-# ✅ Custom Classification Head
+# Custom Classification Head
 x = base_model.output
 x = GlobalAveragePooling2D()(x)
 x = Dense(512, activation="relu")(x)
@@ -66,7 +66,7 @@ x = Dense(num_classes, activation="softmax")(x)
 
 model = Model(inputs=base_model.input, outputs=x)
 
-# ✅ Use Focal Loss for better performance
+# Use Focal Loss for better performance
 model.compile(
     optimizer=Adam(learning_rate=1e-5),
     loss="categorical_crossentropy",
@@ -74,7 +74,7 @@ model.compile(
 )
 
 
-# ✅ Train the model
+# Train the model
 history = model.fit(
     train_data,
     validation_data=val_data,
@@ -82,6 +82,6 @@ history = model.fit(
     verbose=1
 )
 
-# ✅ Save the model
+# Save the model
 model.save("skin_disease_model_improved.h5")
 print("✅ Model training complete. Saved as 'skin_disease_model_improved.h5'")

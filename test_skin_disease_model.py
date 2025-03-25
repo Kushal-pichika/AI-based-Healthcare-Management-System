@@ -5,7 +5,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 
 # Load the trained model
-model = load_model("skin_disease_model.h5")  # Make sure the model is saved after training
+model = load_model("skin_disease_model_improved.h5")  # Make sure the model is saved after training
 
 # Define class labels (update based on your dataset)
 class_labels = ["Eczema", "Psoriasis", "Melanoma", "Acne", "Vitiligo", "Ringworm", "Normal Skin"]
